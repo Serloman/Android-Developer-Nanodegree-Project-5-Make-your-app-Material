@@ -33,8 +33,6 @@ import com.example.xyzreader.data.UpdaterService;
  * handset and tablet-size devices. On handsets, the activity presents a list of items, which when
  * touched, lead to a {@link ArticleDetailActivity} representing item details. On tablets, the
  * activity presents a grid of items as cards.
- * SwipeRefreshLayout Solution from:
- * http://stackoverflow.com/questions/30779667/android-collapsingtoolbarlayout-and-swiperefreshlayout/30785823#30785823
  */
 public class ArticleListActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>
