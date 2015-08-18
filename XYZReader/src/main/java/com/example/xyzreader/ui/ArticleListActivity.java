@@ -61,8 +61,10 @@ public class ArticleListActivity extends AppCompatActivity
 
         getLoaderManager().initLoader(0, null, this);
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
+
             refresh();
+        }
     }
 
     private void initToolbar(){
