@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-            android:fontFamily="sans-serif-condensed"
             android:textColor="#fff"
             android:textStyle="bold"
             android:textSize="@dimen/detail_title_text_size"
@@ -44,5 +43,9 @@
         android:layout_marginLeft="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginBottom="@dimen/default_margin" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></FrameLayout>
 
 </LinearLayout>

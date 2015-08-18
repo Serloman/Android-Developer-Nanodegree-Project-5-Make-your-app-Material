@@ -143,6 +143,7 @@ public class ArticleDetailFragment extends Fragment implements
 
         final FloatingActionButton fab = (FloatingActionButton) mRootView.findViewById(R.id.share_fab);
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) mRootView.findViewById(R.id.articleDetailsCollapsingToolbar);
+        final View progressBar = mRootView.findViewById(R.id.articleDetailProgressBar);
         TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
@@ -176,7 +177,7 @@ public class ArticleDetailFragment extends Fragment implements
                                     mDarkVibrantColor = p.getDarkVibrantColor(getResources().getColor(R.color.theme_accent));
                                     mPhotoView.setImageBitmap(imageContainer.getBitmap());
                                     mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mDarkVibrantColor);
-
+                                    progressBar.setVisibility(View.GONE);
 //                                    collapsingToolbarLayout.setContentScrimColor(mDarkVibrantColor);
                                 }
                             }catch (Exception ex){
