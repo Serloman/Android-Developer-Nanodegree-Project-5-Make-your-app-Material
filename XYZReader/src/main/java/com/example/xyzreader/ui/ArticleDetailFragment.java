@@ -27,13 +27,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 /**
  * A fragment representing a single Article detail screen. This fragment is
@@ -53,11 +50,7 @@ public class ArticleDetailFragment extends Fragment implements
     private int mDarkVibrantColor = 0xFF333333;
     private ColorDrawable mStatusBarColorDrawable;
 
-//    private int mTopInset;
     private ImageView mPhotoView;
-    private int mScrollY;
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -82,9 +75,6 @@ public class ArticleDetailFragment extends Fragment implements
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
 
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-                R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
     }
 
@@ -171,14 +161,13 @@ public class ArticleDetailFragment extends Fragment implements
                             + mCursor.getString(ArticleLoader.Query.AUTHOR)
                             + "</font>"));
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
-/**/
             Picasso.with(getActivity()).load(mCursor.getString(ArticleLoader.Query.PHOTO_URL)).into(mPhotoView, new Callback() {
                 @Override
                 public void onSuccess() {
                     try {
                         Bitmap bitmap = ((BitmapDrawable) mPhotoView.getDrawable()).getBitmap();
 
-                        Palette palette = Palette.generate(bitmap, 12); //Palette.from(bitmap).generate();
+                        Palette palette = Palette.from(bitmap).generate();
                         mDarkVibrantColor = palette.getDarkVibrantColor(getResources().getColor(R.color.theme_accent));
                         mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mDarkVibrantColor);
                         progressBar.setVisibility(View.GONE);
@@ -192,34 +181,6 @@ public class ArticleDetailFragment extends Fragment implements
 
                 }
             });
-/**/
-/** /
-            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                    .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            try{
-                                Bitmap bitmap = imageContainer.getBitmap();
-                                if (bitmap != null) {
-                                    Palette p = Palette.generate(bitmap, 12);
-                                    mDarkVibrantColor = p.getDarkVibrantColor(getResources().getColor(R.color.theme_accent));
-                                    mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                                    mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mDarkVibrantColor);
-                                    progressBar.setVisibility(View.GONE);
-//                                    collapsingToolbarLayout.setContentScrimColor(mDarkVibrantColor);
-                                }
-                            }catch (Exception ex){
-                                ex.printStackTrace();
-                            }
-
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    });
-/**/
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
@@ -257,17 +218,4 @@ public class ArticleDetailFragment extends Fragment implements
         mCursor = null;
         bindViews();
     }
-
-/** /
-    public int getUpButtonFloor() {
-        if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
-            return Integer.MAX_VALUE;
-        }
-
-        // account for parallax
-        return mIsCard
-                ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
-                : mPhotoView.getHeight() - mScrollY;
-    }
-/**/
 }
