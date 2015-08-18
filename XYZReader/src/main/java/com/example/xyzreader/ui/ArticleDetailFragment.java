@@ -7,7 +7,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +31,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 /**
  * A fragment representing a single Article detail screen. This fragment is
@@ -166,6 +171,29 @@ public class ArticleDetailFragment extends Fragment implements
                             + mCursor.getString(ArticleLoader.Query.AUTHOR)
                             + "</font>"));
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
+/**/
+            Picasso.with(getActivity()).load(mCursor.getString(ArticleLoader.Query.PHOTO_URL)).into(mPhotoView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    try {
+                        Bitmap bitmap = ((BitmapDrawable) mPhotoView.getDrawable()).getBitmap();
+
+                        Palette palette = Palette.generate(bitmap, 12); //Palette.from(bitmap).generate();
+                        mDarkVibrantColor = palette.getDarkVibrantColor(getResources().getColor(R.color.theme_accent));
+                        mRootView.findViewById(R.id.meta_bar).setBackgroundColor(mDarkVibrantColor);
+                        progressBar.setVisibility(View.GONE);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+/**/
+/** /
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
@@ -191,6 +219,7 @@ public class ArticleDetailFragment extends Fragment implements
 
                         }
                     });
+/**/
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
